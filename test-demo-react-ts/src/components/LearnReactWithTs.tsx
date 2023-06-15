@@ -1,0 +1,302 @@
+import React, {
+  ComponentProps,
+  ReactNode,
+  useCallback,
+  useEffect,
+  useMemo,
+  useReducer,
+  useRef,
+  useState,
+} from "react";
+
+////
+export const Button = (props: { className: string }) => {
+  return <button className={props.className}></button>;
+};
+
+const Parent = () => {
+  return (
+    <>
+      {/* <Button /> */}
+
+      <Button className="my-class"></Button>
+    </>
+  );
+};
+
+////
+interface Props {
+  className: string;
+}
+
+export const ButtonTwo = (props: Props): JSX.Element => {
+  return <div></div>;
+};
+
+const ParentTwo = () => {
+  return (
+    <>
+      <ButtonTwo className="my-class"></ButtonTwo>
+    </>
+  );
+};
+
+////
+export const ButtonThree = (props: { children: ReactNode }) => {
+  return <button>{props.children}</button>;
+};
+
+const ParentThree = () => {
+  return (
+    <>
+      {/* @ts-expect-error */}
+      <ButtonThree></ButtonThree>
+      <ButtonThree>Hello world!</ButtonThree>
+    </>
+  );
+};
+
+//// type component props with native props ////
+export const ButtonFour = ({
+  className,
+  ...rest
+}: React.ButtonHTMLAttributes<HTMLButtonElement>) => {
+  return (
+    <button {...rest} className={`default-classname ${className}`}></button>
+  );
+};
+
+const ParentFour = () => {
+  return (
+    <ButtonFour onClick={() => {}} type="button" className=""></ButtonFour>
+  );
+};
+
+//// override native props ////
+export type OverrideProp<T, Override> = Omit<T, keyof Override> & Override;
+export type InputProps = OverrideProp<
+  ComponentProps<"input">,
+  {
+    onChange: (value: string) => void;
+  }
+>;
+export const Input = (props: InputProps) => {
+  return (
+    <input
+      {...props}
+      onChange={(e) => {
+        props.onChange(e.target.value);
+      }}
+    ></input>
+  );
+};
+
+const ParentFive = () => {
+  return (
+    <Input
+      onChange={(e) => {
+        console.log(e);
+      }}
+    ></Input>
+  );
+};
+
+////  extract the props from the FC ////
+
+export const NavBar = (props: {
+  title: string;
+  links: string[];
+  children: React.ReactNode;
+}) => {
+  return <div>Some content</div>;
+};
+
+type NavBarProps = ComponentProps<typeof NavBar>;
+
+//// type useState ////
+type TagsType = {
+  id: number;
+  value: string;
+};
+export const Tags = () => {
+  const [tags, setTags] = useState<TagsType[]>([]);
+  return (
+    <div>
+      {tags.map((tag) => {
+        return <div key={tag.id}>{tag.value}</div>;
+      })}
+      <button
+        onClick={() => {
+          setTags([
+            ...tags,
+            {
+              id: new Date().getTime(),
+              value: "New",
+            },
+          ]);
+        }}
+      >
+        Add Tag
+      </button>
+    </div>
+  );
+};
+
+//// type useState two ////
+interface Data {
+  id: number;
+  name: string;
+}
+
+type FetchReturnType = Awaited<ReturnType<typeof fetchData>>;
+
+const fetchData = () => {
+  return Promise.resolve({ id: 1, name: "John" });
+};
+
+export const Component = () => {
+  const [data, setData] = useState<FetchReturnType>();
+
+  useEffect(() => {
+    fetchData().then((val) => {
+      setData(val);
+    });
+  }, []);
+};
+
+//// function comparison vs object comparison ////
+
+interface TagState {
+  tagSelected: number | null;
+  tags: { id: number; value: string }[];
+}
+
+export const TagsTwo = () => {
+  const [state, setState] = useState<TagState>({
+    tags: [],
+    tagSelected: null,
+  });
+  return (
+    <div>
+      {state.tags.map((tag) => {
+        return (
+          <button
+            key={tag.id}
+            onClick={() => {
+              setState(
+                (currentState): TagState => ({
+                  ...currentState,
+                })
+              );
+            }}
+          >
+            {tag.value}
+          </button>
+        );
+      })}
+      <button
+        onClick={() => {
+          setState(
+            (currentState): TagState => ({
+              ...currentState,
+              tags: [
+                ...currentState.tags,
+                {
+                  id: new Date().getTime(),
+                  value: "New",
+                },
+              ],
+            })
+          );
+        }}
+      >
+        Add Tag
+      </button>
+    </div>
+  );
+};
+
+//// type useEffect ////
+
+export const useTimeout = (timerMs: number) => {
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      console.log("Done!");
+    }, timerMs);
+    return () => clearTimeout(timer);
+  }, [timerMs]);
+};
+
+//// type useCallBack ////
+
+export const Buttons = (props: { id: string }) => {
+  const onClick = useCallback<(a: string) => void>(
+    (buttonName) => {
+      console.log(props.id, buttonName);
+    },
+    [props.id]
+  );
+
+  return (
+    <div>
+      <button onClick={() => onClick("A")}>A</button>
+      <button onClick={() => onClick("B")}>B</button>
+      <button onClick={() => onClick("C")}>C</button>
+    </div>
+  );
+};
+
+//// type useMemo ////
+
+export const ComponentTwo = () => {
+  const autoGeneratedIds = useMemo((): string[] => {
+    // generate 100 random string uuid's
+    return Array.from({ length: 100 }, () => Math.random().toString(36));
+  }, []);
+};
+
+//// type useRef ////
+
+export const ComponentThree = () => {
+  const id = useRef<any>();
+
+  useEffect(() => {
+    id.current = "Random value!";
+  }, []);
+
+  return <div></div>;
+};
+
+//// using discriminated union for proper typing in ui state ////
+const enum ActionTypeKeys {
+  add = "add",
+  subtract = "subtract",
+}
+type Action =
+  | { type: ActionTypeKeys.add; add: number }
+  | { type: ActionTypeKeys.subtract; subtract: number };
+
+const reducer = (state: { count: number }, action: Action) => {
+  switch (action.type) {
+    case ActionTypeKeys.add:
+      return { count: state.count + action.add };
+    case ActionTypeKeys.subtract:
+      return { count: state.count - action.subtract };
+    default:
+      throw new Error();
+  }
+};
+
+const [state, dispatch] = useReducer(reducer, { count: 0 });
+
+// @ts-expect-error
+dispatch({ type: "add", add: 1 });
+
+// @ts-expect-error
+dispatch({ type: "SUBTRACT", subtract: 1 });
+
+// @ts-expect-error
+dispatch({ type: "add" });
+
+// @ts-expect-error
+dispatch({ type: "subtract", subtract: "123" });
