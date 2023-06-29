@@ -1,20 +1,16 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
+import { useSearchCustomersHook } from "../Hooks/useSearchCustomersHook";
 
-function SearchCustomer() {
-  const [searchterm, setSearchterm] = useState("");
-  const [customers, setCustomers] = useState([
+export function SearchCustomer() {
+  const [customers] = useState([
     { name: "mike", age: 23 },
     { name: "john", age: 24 },
     { name: "john", age: 35 },
     { name: "peter", age: 25 },
   ]);
-  const [searchedCustomers, setSearchedCustomers] = useState([] as any[]);
-  useEffect(() => {
-    const newCustomers = customers.filter((item) =>
-      item.name.toLowerCase().match(searchterm)
-    );
-    setSearchedCustomers(newCustomers);
-  }, [searchterm]);
+
+  const { searchedCustomers, searchterm, setSearchterm } =
+    useSearchCustomersHook(customers);
 
   return (
     <>
