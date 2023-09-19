@@ -5,7 +5,15 @@ export const Login = () => {
   const { keycloak } = useKeycloak();
   return (
     <div>
-      <button onClick={() => keycloak.login()}>Login</button>
+      <button
+        onClick={() =>
+          keycloak.login({
+            redirectUri: "/",
+          })
+        }
+      >
+        Login
+      </button>
     </div>
   );
 };

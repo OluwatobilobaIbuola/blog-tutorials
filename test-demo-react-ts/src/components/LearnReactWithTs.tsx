@@ -246,6 +246,8 @@ export const Buttons = (props: { id: string }) => {
   );
 };
 
+<Buttons id="B" />;
+
 //// type useMemo ////
 
 export const ComponentTwo = () => {

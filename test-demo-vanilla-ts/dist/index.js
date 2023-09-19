@@ -2,6 +2,16 @@
 // //casting in typescript
 // let input = document.querySelector("#inputTag") as HTMLInputElement;
 // // console.log(input.value);
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+var _a;
 // // flatten array
 let flatten = [];
 let arr = [1, 2, 3, [4, 5, 6, [7, 8, 9]]];
@@ -63,20 +73,6 @@ const promiseAll = (promises) => {
         });
     });
 };
-const promiseAcc = (...promises) => {
-    let result = [];
-    promises.forEach((promise) => {
-        promise
-            .then((res) => {
-            console.log(res);
-            // result.push(res);
-        })
-            .catch((err) => {
-            // result.push(-1);
-            console.log(-1);
-        });
-    });
-};
 // const showName = (name: string) => {
 //   return new Promise((resolve, reject) => {
 //     resolve(name);
@@ -92,12 +88,32 @@ const promiseAcc = (...promises) => {
 //     reject(name);
 //   });
 // };
-console.log("promise", promiseAcc(Promise.reject(30), Promise.reject(30), Promise.resolve(10), Promise.resolve(20), Promise.resolve(30)));
 // promiseAll([
 //   showName("Tobi"),
 //   showLove("Jesus"),
 //   showClass("New Generation Light Movement"),
 // ]).then((res) => console.log(res));
+const PromiseArr = (...promises) => __awaiter(void 0, void 0, void 0, function* () {
+    for (const promise of promises) {
+        try {
+            const result = yield promise;
+            console.log(result);
+        }
+        catch (error) {
+            console.log(-1);
+            break;
+        }
+    }
+});
+// console.log(
+//   PromiseArr(
+//     Promise.reject(3),
+//     Promise.resolve(50),
+//     Promise.resolve(10),
+//     Promise.reject(3),
+//     Promise.resolve(20)
+//   )
+// );
 ////end of promise.all////
 ////debounce function////
 const debounce = (fn, delay) => {
@@ -268,9 +284,9 @@ class Coder {
     }
 }
 const studentOne = {
-    name: "mike",
-    age: 23,
-    classes: ["math", "english"],
+    name: "seyi",
+    age: 30,
+    classes: ["math", "french"],
 };
 for (const key in studentOne) {
     // console.log(student[key as keyof Student]);
@@ -348,5 +364,39 @@ const customers = [
     { name: "peter", age: 25 },
 ];
 const newCustomer = customers.filter((item) => item.name.match("u"));
-console.log("newCustomer", newCustomer);
+// console.log("newCustomer", newCustomer);
+//// create array from number ////
+const arrInitial = Array.from({ length: 10 }, (_, i) => i + 1);
+// console.log("arrInitial", arrInitial);
+//// does empty return empty array with map ////
+const resultArray = (_a = []) === null || _a === void 0 ? void 0 : _a.map((item) => item * 2);
+// console.log("resultArray", resultArray);
+//// can u map undefined with an optional chaining ////
+let varUndefined = undefined;
+// let resultUndefined = varUndefined?.map((item) => item * 2);
+//// construct query string ////
+const queryResult = Object.entries({
+    phoneNumber: "09087654321",
+    name: "mike",
+})
+    .map((params) => {
+    return `${params[0]}=${params[1]}`;
+})
+    .join("&");
+// console.log("queryResult", queryResult);
+//// replace email address with asterisk ////
+const email = "ibuolatobi@gmail.com";
+const emailResult = email.replace(/(?<=.{3}).(?=[^@]*?@)|(?:(?<=@.)|(?!^)\G(?=[^@]*$)).(?=.*\.)/g, "*");
+// console.log("emailResult", emailResult);
+function isValidMailAddress(email) {
+    let match = /^\w+[-\.\w]*@(\w+[-\.\w]*?\.\w{2,4})$/.exec(email);
+    if (!match)
+        return false;
+    let forbiddenDomains = ["gmail.com", "yahoo.com",];
+    if (forbiddenDomains.indexOf(match[1].toLowerCase()) >= 0)
+        return false;
+    return true;
+}
+const bool = isValidMailAddress('ibuolatobi@gail.com');
+// console.log("bool", bool)
 //# sourceMappingURL=index.js.map

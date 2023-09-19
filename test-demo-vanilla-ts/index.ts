@@ -21,7 +21,7 @@ let person2: { name: string } = {
 };
 // console.log(person.hello.call(person2, "world"));
 //console.log(Person.hello.apply(Person2, ["world"]));
-console.log(person.hello.bind(this));
+// console.log(person.hello.bind(this));
 
 ////composition function part of functional programming (declarative programming)
 function add(a: number): number {
@@ -72,21 +72,6 @@ const promiseAll = (promises: Promise<any>[]): Promise<string[] | Error> => {
   });
 };
 
-const promiseAcc = (...promises: Promise<any>[]) => {
-  let result: any[] = [];
-  promises.forEach((promise: any) => {
-    promise
-      .then((res: any) => {
-        console.log(res);
-        // result.push(res);
-      })
-      .catch((err: any) => {
-        // result.push(-1);
-        console.log(-1);
-      });
-  });
-};
-
 // const showName = (name: string) => {
 //   return new Promise((resolve, reject) => {
 //     resolve(name);
@@ -103,22 +88,33 @@ const promiseAcc = (...promises: Promise<any>[]) => {
 //   });
 // };
 
-console.log(
-  "promise",
-  promiseAcc(
-    Promise.reject(30),
-    Promise.reject(30),
-    Promise.resolve(10),
-    Promise.resolve(20),
-    Promise.resolve(30)
-  )
-);
-
 // promiseAll([
 //   showName("Tobi"),
 //   showLove("Jesus"),
 //   showClass("New Generation Light Movement"),
 // ]).then((res) => console.log(res));
+
+const PromiseArr = async (...promises: Promise<number>[]) => {
+  for (const promise of promises) {
+    try {
+      const result = await promise;
+      console.log(result);
+    } catch (error) {
+      console.log(-1);
+      break;
+    }
+  }
+};
+
+// console.log(
+//   PromiseArr(
+//     Promise.reject(3),
+//     Promise.resolve(50),
+//     Promise.resolve(10),
+//     Promise.reject(3),
+//     Promise.resolve(20)
+//   )
+// );
 
 ////end of promise.all////
 
@@ -212,7 +208,7 @@ const shoppingCartService = new ShoppingCartService(
 
 ///// type of a flatten return type
 type Flatten<T> = T extends Array<infer A> ? A : T;
-type FlattenedNumbers = Flatten<(number | number[])[]>; // number or number[]
+type FlattenedNumbers = Flatten<number | number[]>; // number or number[]
 
 ///// curry function (functional programming)
 type curry<A, B, R> = (a: A) => (b: B) => R;
@@ -251,16 +247,23 @@ function identity<Type>(arg: Type): Type {
 let myIdentity: { <Type>(arg: Type): Type } = identity;
 myIdentity<string>("me");
 
+//// infer keyword ////
+
+type GetReturnType<Type> = Type extends (...args: never[]) => infer R
+  ? R
+  : never;
+
+type Nevertype = GetReturnType<string>;
+type ArrString = GetReturnType<(a: string) => string[]>;
+
 ////how to write object literal type with interface////
 interface GenericIdentityFn<Type> {
   (arg: Type): Type;
 }
-let myIdentityTwo: GenericIdentityFn<number> = function <Type>(
-  arg: Type
-): Type {
+let myIdentityTwo: GenericIdentityFn<number> = function (arg) {
   return arg;
 };
-//myIdentityTwo("me") // error
+// myIdentityTwo("me") // error
 
 //// generic constrainst ////
 interface LengthProperty {
@@ -275,17 +278,18 @@ function identityTwo<Type extends LengthProperty>(arg: Type): Type {
 }
 
 //// more on type parameter for generic constrainst ////
-function getProperty<Type, Key extends keyof Type>(obj: Type, key: Key) {
+function getPropertyValue<Type, Key extends keyof Type>(obj: Type, key: Key) {
   return obj[key];
 }
-getProperty({ a: "hello", b: "world" }, "a"); // "hello"
+getPropertyValue({ a: "hello", b: "world" }, "a"); // "hello"
 
-const getUsersProperty = <T extends HasID, K extends keyof T>(
+const getUsersSpecificPropertyValue = <T extends HasID, K extends keyof T>(
   users: T[],
   key: K
 ): T[K][] => {
   return users.map((user) => user[key]);
 };
+getUsersSpecificPropertyValue([{ id: 3, name: "Tobi Ibuola", age: 12 }], "id");
 
 //// generic constrainst with class ////
 class BeeKeeper {
@@ -324,8 +328,8 @@ let c = "Hello";
 let b: typeof c;
 
 //// indexed access type ////
-type Person = { age: number; name: string; alive: boolean };
-type P1 = Person[keyof Person];
+const test = { name: "Alice", age: 15 };
+type P1 = typeof test;
 
 //// capturing the index with number ////
 const MyArray = [
@@ -429,9 +433,9 @@ interface Student {
   classes?: string[];
 }
 const studentOne = {
-  name: "mike",
-  age: 23,
-  classes: ["math", "english"],
+  name: "seyi",
+  age: 30,
+  classes: ["math", "french"],
 };
 for (const key in studentOne) {
   // console.log(student[key as keyof Student]);
@@ -529,6 +533,47 @@ const customers = [
 const newCustomer = customers.filter((item) => item.name.match("u"));
 // console.log("newCustomer", newCustomer);
 
-
 //// create array from number ////
-Array.from({length: 10}, (_, i) => i + 1)
+const arrInitial = Array.from({ length: 10 }, (_, i) => i + 1);
+
+// console.log("arrInitial", arrInitial);
+
+//// does empty return empty array with map ////
+const resultArray = []?.map((item) => item * 2);
+// console.log("resultArray", resultArray);
+
+//// can u map undefined with an optional chaining ////
+let varUndefined = undefined;
+// let resultUndefined = varUndefined?.map((item) => item * 2);
+
+//// construct query string ////
+const queryResult = Object.entries({
+  phoneNumber: "09087654321",
+  name: "mike",
+})
+  .map((params) => {
+    return `${params[0]}=${params[1]}`;
+  })
+  .join("&");
+
+// console.log("queryResult", queryResult);
+
+//// replace email address with asterisk ////
+const email = "ibuolatobi@gmail.com";
+const emailResult = email.replace(
+  /(?<=.{3}).(?=[^@]*?@)|(?:(?<=@.)|(?!^)\G(?=[^@]*$)).(?=.*\.)/g,
+  "*"
+);
+// console.log("emailResult", emailResult);
+
+function isValidMailAddress(email: string) {
+  let match = /^\w+[-\.\w]*@(\w+[-\.\w]*?\.\w{2,4})$/.exec(email);
+  if (!match) return false;
+
+  let forbiddenDomains = ["gmail.com", "yahoo.com"];
+  if (forbiddenDomains.indexOf(match[1].toLowerCase()) >= 0) return false;
+
+  return true;
+}
+const bool = isValidMailAddress("ibuolatobi@gail.com");
+// console.log("bool", bool)

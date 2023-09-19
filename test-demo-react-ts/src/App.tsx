@@ -7,26 +7,44 @@ import keycloak from "./config/keycloak";
 import PrivateRoute from "./components/PrivateRoute";
 import { Login } from "./components/KeyCloakAuth";
 import { CheckoutContainer } from "./components/FactoryPatternForIoCReact/CheckoutContainer";
+import MyComponent from "./components/NextInputFocus";
+import { createBrowserRouter, Outlet, RouterProvider } from "react-router-dom";
+import LazyLoadingImage from "./components/LazyLoadingImage";
 
 function App() {
-  return (
-    <ReactKeycloakProvider authClient={keycloak}>
-      <BrowserRouter>
-        <div className="App">
-          <Routes>
-            <Route path="/" element={<Login />} />
-            <Route path="/factory-pattern" element={<CheckoutContainer />} />
-            <Route path="/gsap" element={<GsapComponent />} />
-            <Route element={<PrivateRoute />}>
-              <Route path="/debounce" element={<Debounce />} />
-            </Route>
-            {/* <TextInputWithFocusButton /> */}
-            {/* <SearchCustomer /> */}
-          </Routes>
-        </div>
-      </BrowserRouter>
-    </ReactKeycloakProvider>
-  );
+  const Layout = () => {
+    return (
+      <ReactKeycloakProvider authClient={keycloak}>
+        {/* <div>Header</div> */}
+        <Outlet />
+        {/* <footer>Footer</footer> */}
+      </ReactKeycloakProvider>
+    );
+  };
+  const router = createBrowserRouter([
+    {
+      path: "/",
+      element: <Layout />,
+      children: [
+        {
+          path: "/",
+          element: <LazyLoadingImage />,
+        },
+        {
+          path: "/doo",
+          element: (
+            <>
+              <div>doo</div>
+              <Outlet />
+            </>
+          ),
+          children: [{ path: "/doo/doooo", element: <div>doooo</div> }],
+        },
+      ],
+    },
+  ]);
+
+  return <RouterProvider router={router} />;
 }
 
 export default App;

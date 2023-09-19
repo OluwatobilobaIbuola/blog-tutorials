@@ -1,0 +1,23 @@
+/* react-calendar */
+.react-calendar {
+  @apply w-[400px] max-w-full bg-white text-[#1c1c1c] rounded-md font-inter leading-[1.125em] 
+  shadow-[0_12px_24px_rgba(0,0,0,0.2)];
+}
+.react-calendar__navigation button {
+  @apply text-[#000000] min-w-[44px] bg-none text-[16px] mt-2;
+}
+.react-calendar__navigation button:enabled:hover,
+.react-calendar__navigation button:enabled:focus {
+  @apply bg-[#f8f8fa];
+}
+.react-calendar__navigation button[disabled] {
+  @apply bg-[#f0f0f0];
+}
+abbr[title] {
+  @apply decoration-[none];
+}
+.react-date-picker__wrapper {
+  @apply outline-[0] max-w-[457px] hover:bg-bgInput h-[42px] sm:h-[48px] rounded-md focus:border-primary 
+  hover:border-primary border hover:border-[2px] focus:border-[2px] border-gray-25 bg-white focus:bg-white placeholder-gray-35
+   px-[26px] w-full transition duration-500 ease-in-out;
+}

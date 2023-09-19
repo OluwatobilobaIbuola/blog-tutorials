@@ -1,0 +1,56 @@
+@import "./fonts.css";
+@import "./variables.css";
+@import "./loader.css";
+@import "./reactTelInput.css";
+@import "./reactCalender.css";
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    @apply scroll-smooth p-0 m-0 box-border text-[16px] bg-gray-5 font-inter;
+  }
+}
+
+@layer components {
+  .input {
+    @apply outline-[0] max-w-[457px] hover:bg-bgInput h-[42px] sm:h-[48px] rounded-md focus:border-primary 
+      hover:border-primary border hover:border-[2px] focus:border-[2px] border-gray-25 bg-white focus:bg-white placeholder-gray-35
+       px-[26px] w-full transition duration-500 ease-in-out;
+  }
+  .inputPin {
+    @apply outline-[0] h-[42px] sm:h-[48px] max-w-[60px] focus:border-primary hover:border-primary  border hover:border-[2px] focus:border-[2px] w-full 
+      transition duration-500 ease-in-out border-gray-35;
+  }
+  .checkbox {
+    @apply checked:bg-primary w-[15px] h-[15px] cursor-pointer rounded-[2px] 
+      border-[rgba(28,28,28,0.8)] border hover:border-[2px] focus:border-[2px];
+  }
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: gray;
+  border-radius: 1px;
+}
+::-webkit-scrollbar-track {
+  background-color: #bfd6db;
+}
+
+/* Hide scrollbar for Chrome, Safari and Opera */
+::-webkit-scrollbar {
+  display: none;
+}
+
+select,
+input,
+.input {
+  box-shadow: none !important;
+}
+
+.chart-select__control {
+  @apply !bg-transparent !rounded-none;
+  
+  border: 0px solid transparent !important;
+}

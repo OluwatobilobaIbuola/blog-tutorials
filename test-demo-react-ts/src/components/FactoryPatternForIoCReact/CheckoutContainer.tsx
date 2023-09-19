@@ -7,7 +7,7 @@ import { ProviderComponentFactory } from "../../Providers/Component/ProviderComp
 
 export const CheckoutContainer = () => {
   const [selectedProvider, setSelectedProvider] = useState<Provider>(
-    Provider.PAYPAL
+    Provider.STRIPE
   );
   const [currency, setCurrency] = useState<AllowedCurrencies>(
     AllowedCurrencies.USD
