@@ -14,5 +14,5 @@ var StatusCode;
     StatusCode[StatusCode["SERVER_ERROR"] = 500] = "SERVER_ERROR";
     StatusCode[StatusCode["CONFLICT"] = 409] = "CONFLICT";
     StatusCode[StatusCode["PRECONDITION_FAILED"] = 412] = "PRECONDITION_FAILED";
-})(StatusCode = exports.StatusCode || (exports.StatusCode = {}));
+})(StatusCode || (exports.StatusCode = StatusCode = {}));
 //# sourceMappingURL=httpStatusCode.js.map

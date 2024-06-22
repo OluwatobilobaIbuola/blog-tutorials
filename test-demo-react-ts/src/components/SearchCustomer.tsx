@@ -1,5 +1,6 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import { useSearchCustomersHook } from "../Hooks/useSearchCustomersHook";
+import { ReactNode } from "react";
 
 export function SearchCustomer() {
   const [customers] = useState([

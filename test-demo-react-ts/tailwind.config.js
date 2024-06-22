@@ -59,5 +59,15 @@ export default {
       },
       borderRadius: { radius6: "6px" },
     },
+    screens: {
+      xxs: "390px",
+      xs: "480px",
+      ss: "620px",
+      sm: "768px",
+      md: "1024px",
+      lg: "1200px",
+      xl: "1400px",
+      xxl: "1700px",
+    },
   },
 };

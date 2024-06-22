@@ -1,25 +1,18 @@
-import "./App.css";
-import Debounce from "./components/Debounce";
-import GsapComponent from "./components/GsapAnimations";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { ReactKeycloakProvider } from "@react-keycloak/web";
-import keycloak from "./config/keycloak";
-import PrivateRoute from "./components/PrivateRoute";
-import { Login } from "./components/KeyCloakAuth";
-import { CheckoutContainer } from "./components/FactoryPatternForIoCReact/CheckoutContainer";
-import MyComponent from "./components/NextInputFocus";
+import "./assets/css/global.css";
 import { createBrowserRouter, Outlet, RouterProvider } from "react-router-dom";
-import LazyLoadingImage from "./components/LazyLoadingImage";
+import {
+  ControlledFlowComp,
+  CurrentUserLoaderComp,
+  TypeaheadComp,
+  UncontrolledFlowComp,
+} from "./components/SystemDesign";
+import { Test } from "./components/ClassExample";
+import Sticky from "./components/Sticky";
+import Drag from "./components/Drag";
 
 function App() {
   const Layout = () => {
-    return (
-      <ReactKeycloakProvider authClient={keycloak}>
-        {/* <div>Header</div> */}
-        <Outlet />
-        {/* <footer>Footer</footer> */}
-      </ReactKeycloakProvider>
-    );
+    return <Outlet />;
   };
   const router = createBrowserRouter([
     {
@@ -28,17 +21,19 @@ function App() {
       children: [
         {
           path: "/",
-          element: <LazyLoadingImage />,
+          element: (
+            <div className="flex justify-center items-center min-h-screen">
+              <Drag />
+            </div>
+          ),
         },
         {
-          path: "/doo",
+          path: "/about-us",
           element: (
-            <>
-              <div>doo</div>
-              <Outlet />
-            </>
+            <div className="flex justify-center items-center min-h-screen">
+              <div>About Us</div>
+            </div>
           ),
-          children: [{ path: "/doo/doooo", element: <div>doooo</div> }],
         },
       ],
     },

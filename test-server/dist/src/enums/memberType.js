@@ -5,5 +5,5 @@ var MemberType;
 (function (MemberType) {
     MemberType["KVC_LOVER"] = "KVC_LOVER";
     MemberType["KVC_MEMBER"] = "KVC_MEMBER";
-})(MemberType = exports.MemberType || (exports.MemberType = {}));
+})(MemberType || (exports.MemberType = MemberType = {}));
 //# sourceMappingURL=memberType.js.map

@@ -20,3 +20,10 @@ declare module NodeJS {
     browser?: boolean;
   }
 }
+
+export type UserTest = {
+  name: string;
+  age: string;
+  country: string;
+  books: string[];
+};

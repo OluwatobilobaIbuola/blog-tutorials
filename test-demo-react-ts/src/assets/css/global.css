@@ -9,8 +9,14 @@
 @tailwind utilities;
 
 @layer base {
-  html {
-    @apply scroll-smooth p-0 m-0 box-border text-[16px] bg-gray-5 font-inter;
+  /* html {
+    @apply h-full;
+  } */
+  body {
+    @apply h-full bg-gray-15 scroll-smooth p-0 m-0 box-border text-[16px]  font-inter;
+  }
+  #root {
+    @apply h-full;
   }
 }
 
@@ -51,6 +57,6 @@ input,
 
 .chart-select__control {
   @apply !bg-transparent !rounded-none;
-  
+
   border: 0px solid transparent !important;
 }

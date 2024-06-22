@@ -12,11 +12,13 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 var _a;
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.platform = void 0;
 // // flatten array
 let flatten = [];
 let arr = [1, 2, 3, [4, 5, 6, [7, 8, 9]]];
 const result = flatten.concat(...arr);
-// // console.log("result from flatten", result);
+// console.log("result from flatten", result);
 ////object with inline interface
 let person = {
     name: "John",
@@ -29,7 +31,7 @@ let person2 = {
 };
 // console.log(person.hello.call(person2, "world"));
 //console.log(Person.hello.apply(Person2, ["world"]));
-console.log(person.hello.bind(this));
+// console.log(person.hello.bind(this));
 ////composition function part of functional programming (declarative programming)
 function add(a) {
     return a + 1;
@@ -203,13 +205,14 @@ function identityTwo(arg) {
     return arg;
 }
 //// more on type parameter for generic constrainst ////
-function getProperty(obj, key) {
+function getPropertyValue(obj, key) {
     return obj[key];
 }
-getProperty({ a: "hello", b: "world" }, "a"); // "hello"
-const getUsersProperty = (users, key) => {
+getPropertyValue({ a: "hello", b: "world" }, "a"); // "hello"
+const getUsersSpecificPropertyValue = (users, key) => {
     return users.map((user) => user[key]);
 };
+getUsersSpecificPropertyValue([{ id: 3, name: "Tobi Ibuola", age: 12 }], "id");
 //// generic constrainst with class ////
 class BeeKeeper {
     constructor() {
@@ -338,17 +341,6 @@ var k = 2;
 k = 5;
 // console.log("k", k);
 var k;
-//// poylfill ////
-let data = [1, 2, 3, 4, 5];
-Array.prototype.map = function (cb) {
-    let arr = [];
-    for (let i = 0; i < this.length; i++) {
-        arr.push(cb(this[i], i, this));
-    }
-    return arr;
-};
-const mapLog = data.map((el) => el * 2);
-// console.log(mapLog);
 //// hoisting ////
 var text = "Hey bruh!";
 var text = "Hey peter";
@@ -388,15 +380,181 @@ const queryResult = Object.entries({
 const email = "ibuolatobi@gmail.com";
 const emailResult = email.replace(/(?<=.{3}).(?=[^@]*?@)|(?:(?<=@.)|(?!^)\G(?=[^@]*$)).(?=.*\.)/g, "*");
 // console.log("emailResult", emailResult);
+//// restricted selected email suffices ////
 function isValidMailAddress(email) {
     let match = /^\w+[-\.\w]*@(\w+[-\.\w]*?\.\w{2,4})$/.exec(email);
     if (!match)
         return false;
-    let forbiddenDomains = ["gmail.com", "yahoo.com",];
+    let forbiddenDomains = ["gmail.com", "yahoo.com"];
     if (forbiddenDomains.indexOf(match[1].toLowerCase()) >= 0)
         return false;
     return true;
 }
-const bool = isValidMailAddress('ibuolatobi@gail.com');
+const bool = isValidMailAddress("ibuolatobi@gail.com");
 // console.log("bool", bool)
+//// union type of literal type ////
+exports.platform = {
+    brand: "ROLE_BRAND_SELLER",
+    localStore: "ROLE_MARKET_SELLER",
+    buyer: "ROLE_USER",
+};
+const user = {
+    platforms: ["ROLE_BRAND_SELLER", "ROLE_USER"],
+};
+// Array.prototype.myMap = function <T, U>(cb: MapCallback<T, U>): U[] {
+//   let arr: U[] = [];
+//   for (let i = 0; i < this.length; i++) {
+//     arr.push(cb(this[i], i, this));
+//   }
+//   return arr;
+// };
+// const mapData: number[] = [1, 2, 3, 4, 5];
+// const mapLog: number[] = mapData.myMap((el) => el * 2);
+// console.log("mapLog", mapLog);
+Array.prototype.myMap = function (cb) {
+    let arr = [];
+    for (let i = 0; i < this.length; i++) {
+        arr.push(cb(this[i], i, this));
+    }
+    return arr;
+};
+let testMyMapArr = [1, 2, 3, 4.5];
+// console.log(
+//   "testMyMapArr",
+//   testMyMapArr.myMap((el) => el * 2)
+// );
+//// composition without mutaiton ////
+const xObj = {
+    val: 2,
+};
+const x1 = (x) => Object.assign({}, x, { val: x.val + 1 });
+const x2 = (x) => Object.assign({}, x, { val: x.val * 2 });
+// console.log("xObj", xObj);
+// console.log("composition result", x1(x2(xObj)));
+//// this and context methods bind, apply and call ////
+//// 1 call ////
+const thisPerson = {
+    name: "John",
+    greet: function (greeting) {
+        return `${greeting}, ${this.name}!`;
+    },
+};
+const greeting = thisPerson.greet.call({ name: "Jane" }, "Hello", 1, 2, 3);
+// console.log("greeting", greeting);
+//// 2. bind ////
+const obj = {
+    x: 42,
+    getX: function (y) {
+        console.log(this.y);
+        return this.x + y;
+    },
+    y: "i have y",
+};
+const obj2 = {
+    x: 92,
+    y: "i have y now",
+};
+const boundGetX = obj.getX.bind(obj2);
+// console.log(boundGetX(6)); // Outputs: 98
+//// 3. apply ////
+const v = obj.getX.apply(obj2, [4]);
+// console.log("apply", v);
+//// higher order function ////
+//// Example of a higher-order function that works with different data types ////
+function map(arr, fn) {
+    const result = [];
+    for (let i = 0; i < arr.length; i++) {
+        result.push(fn(arr[i]));
+    }
+    return result;
+}
+const doubled = map([1, 2, 3], (x) => x * 2);
+// console.log(doubled); // Outputs: [2, 4, 6]
+const uppercased = map(["hello", "world"], (str) => str.toUpperCase());
+// console.log(uppercased); // Outputs: ['HELLO', 'WORLD']
+//// Example of a higher-order function facilitating partial application ////
+function subHOF(x, y) {
+    return x - y;
+}
+// Partial application using bind
+const substractHOF = subHOF.bind(null, 2);
+// console.log("substractHOF", substractHOF(5));
+// type UnaryFunction<T, R> = (arg: T) => R;
+// type UnaryFunctionArray<R> = Array<UnaryFunction<any, R>>;
+// type PartialApplicationExample = (
+//   ...fns: UnaryFunctionArray<any>
+// ) => UnaryFunction<any, any>;
+// type MapComposition = UnaryFunction<(str: string) => any, string[]>;
+// type Join = UnaryFunction<string, string[]>;
+// type ToLowerCase = UnaryFunction<string, string>;
+// type Split = UnaryFunction<string, string[]>;
+// type ToSlug = UnaryFunction<string, string>;
+// const curryFn = (fn: Function) => (...args: any[]) => fn.bind(null, ...args);
+// const partialApplicationExample: PartialApplicationExample = (
+//   ...fns
+// ) => (x: any) => fns.reduceRight((v, f) => f(v), x);
+// const mapComposition: MapComposition = curryFn(
+//   (fn, arr) => arr.map(fn)
+// );
+// const join: Join = curryFn((str, arr) => arr.join(str));
+// const toLowerCase: ToLowerCase = (str) => str.toLowerCase();
+// const split: Split = curryFn((splitOn, str) =>
+//   str.split(splitOn)
+// );
+// const toSlug: ToSlug = partialApplicationExample(
+//   encodeURIComponent,
+//   join("-"),
+//   mapComposition(toLowerCase),
+//   split(" ")
+// );
+// console.log(toSlug("JS Cheerleader")); // 'js-cheerleader'
+//// Example of a higher-order function that composes multiple functions ////
+function composeHOF(...fns) {
+    return function (x) {
+        return fns.reduceRight((acc, fn) => fn(acc), x);
+    };
+}
+// Example functions
+function addOne(x) {
+    return x + 1;
+}
+function square(x) {
+    return x * x;
+}
+function subtractTwo(x) {
+    return x - 2;
+}
+// Compose functions
+const composedFunction = composeHOF(subtractTwo, square, addOne);
+// Usage
+// console.log(composedFunction(3))
+// console.log("function expression",subtractTwo)
+//// partial application ////
+//pointed style
+const list = (lastJoin = "and", ...items) => {
+    const commaSeparated = items.slice(0, -1).join(", ");
+    const lastItem = items.pop();
+    return `${commaSeparated} ${lastJoin} ${lastItem}`;
+};
+// console.log(list("and", "peter", "paul", "sarah", "esther"));
+//with partial
+const partial = (fn, firstArg) => {
+    return (...lastArgs) => {
+        return fn(firstArg, ...lastArgs);
+    };
+};
+const listWith = partial(list, "with");
+// console.log(listWith("daniel", "sarah"))
+const promiseAOne = new Promise((resolve, reject) => resolve(5));
+const getUserById = (id) => new Promise((resolve, reject) => id === 1 ? resolve({ id, displayName: "Jan" }) : reject("User not found."));
+const getName = ({ displayName }) => displayName;
+const countLetters = (str) => str.length;
+const asyncIsEven = (n) => Promise.resolve(n % 2 === 0);
+function asyncPipe(...fns) {
+    return (x) => fns.reduce((y, fn) => __awaiter(this, void 0, void 0, function* () { return fn(yield y); }), x);
+}
+const userHasEvenName = asyncPipe(getUserById, getName, countLetters);
+userHasEvenName(1)
+    .then((res) => console.log("response", res))
+    .catch((err) => err.message);
 //# sourceMappingURL=index.js.map
