@@ -13,7 +13,8 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 var _a;
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.platform = void 0;
+exports.getDayStartTime = exports.platform = void 0;
+const ramda_1 = require("ramda");
 // // flatten array
 let flatten = [];
 let arr = [1, 2, 3, [4, 5, 6, [7, 8, 9]]];
@@ -553,8 +554,34 @@ const asyncIsEven = (n) => Promise.resolve(n % 2 === 0);
 function asyncPipe(...fns) {
     return (x) => fns.reduce((y, fn) => __awaiter(this, void 0, void 0, function* () { return fn(yield y); }), x);
 }
-const userHasEvenName = asyncPipe(getUserById, getName, countLetters);
-userHasEvenName(1)
-    .then((res) => console.log("response", res))
-    .catch((err) => err.message);
+// const userHasEvenName = asyncPipe(
+//   getUserById,
+//   getName,
+//   countLetters,
+//   asyncIsEven
+// );
+// userHasEvenName(1)
+//   .then((res) => console.log("response", res))
+//   .catch((err) => err.message);
+//// ramda ////
+const customSumRamda = (a, b) => a + b;
+// const average = converge(divide, [sum, length, sum]); // wrong
+const average2 = (0, ramda_1.converge)(customSumRamda, [ramda_1.sum, ramda_1.length]); // right
+const settingsMap = {
+    settings: {
+        dayStartTime: "00:00",
+    },
+};
+const notEquals = (0, ramda_1.complement)(ramda_1.equals);
+const getSettingsSliceValue = (0, ramda_1.prop)("settings");
+const getDayStartTimeValue = (0, ramda_1.prop)("dayStartTime");
+exports.getDayStartTime = (0, ramda_1.pipe)(getSettingsSliceValue, getDayStartTimeValue);
+// export const getCanDecrementDayStartTime = pipe(
+//   getDayStartTime,
+//   notEquals("00:00")
+// );
+//// object.assign ////
+const prevObject = { a: 1 };
+const nextObject = Object.assign(prevObject, { b: 2 });
+console.log("nextObject", nextObject);
 //# sourceMappingURL=index.js.map

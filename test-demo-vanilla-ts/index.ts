@@ -2,6 +2,17 @@
 // let input = document.querySelector("#inputTag") as HTMLInputElement;
 // // console.log(input.value);
 
+import {
+  complement,
+  converge,
+  divide,
+  equals,
+  length,
+  pipe,
+  prop,
+  sum,
+} from "ramda";
+
 // // flatten array
 let flatten: Array<number | (number | number[])[]> = [];
 let arr = [1, 2, 3, [4, 5, 6, [7, 8, 9]]];
@@ -804,6 +815,7 @@ const promiseAOne = new Promise((resolve, reject) => resolve(5));
 
 // console.log("x", x);
 
+//// async pipe ////
 interface UserAsync {
   id: number;
   displayName: string;
@@ -842,13 +854,45 @@ function asyncPipe(...fns: Function[]) {
   return (x: any) => fns.reduce(async (y, fn) => fn(await y), x);
 }
 
-const userHasEvenName = asyncPipe(
-  getUserById,
-  getName,
-  countLetters,
-  asyncIsEven
-);
+// const userHasEvenName = asyncPipe(
+//   getUserById,
+//   getName,
+//   countLetters,
+//   asyncIsEven
+// );
 
-userHasEvenName(1)
-  .then((res) => console.log("response", res))
-  .catch((err) => err.message);
+// userHasEvenName(1)
+//   .then((res) => console.log("response", res))
+//   .catch((err) => err.message);
+
+//// ramda ////
+const customSumRamda = (a: number, b: number) => a + b;
+// const average = converge(divide, [sum, length, sum]); // wrong
+const average2 = converge(customSumRamda, [sum, length]); // right
+
+const settingsMap = {
+  settings: {
+    dayStartTime: "00:00",
+  },
+};
+
+const notEquals = complement(equals);
+const getSettingsSliceValue: <U extends Record<string, any>>({
+  settings,
+}: {
+  settings: U;
+}) => U = prop("settings");
+const getDayStartTimeValue = prop("dayStartTime");
+export const getDayStartTime = pipe(
+  getSettingsSliceValue,
+  getDayStartTimeValue
+);
+// export const getCanDecrementDayStartTime = pipe(
+//   getDayStartTime,
+//   notEquals("00:00")
+// );
+
+//// object.assign ////
+const prevObject = { a: 1 };
+const nextObject = Object.assign(prevObject, { b: 2 });
+console.log("nextObject", nextObject);

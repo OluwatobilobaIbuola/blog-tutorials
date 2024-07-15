@@ -1,9 +1,9 @@
-import { call, put, takeLatest } from "redux-saga/effects";
+import { call, put, takeEvery } from "redux-saga/effects";
 import {
   fetchQuotesFailure,
   fetchQuotesRequest,
   fetchQuotesSuccess,
-} from "./quotesApiSlice";
+} from "./quotes-reducer";
 
 interface Quote {
   id: number;
@@ -36,5 +36,5 @@ function* fetchQuotesSaga() {
 }
 
 export function* watchFetchQuotesSaga() {
-  yield takeLatest(fetchQuotesRequest.type, fetchQuotesSaga);
+  yield takeEvery(fetchQuotesRequest.type, fetchQuotesSaga);
 }

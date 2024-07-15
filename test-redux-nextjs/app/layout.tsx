@@ -1,8 +1,7 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
-import { useStore } from "@/redux/store";
-import { Provider } from "react-redux";
+import Provider from "@/redux/provider";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -16,9 +15,8 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const store = useStore();
   return (
-    <Provider store={store}>
+    <Provider>
       <html lang="en">
         <body className={inter.className}>{children}</body>
       </html>
