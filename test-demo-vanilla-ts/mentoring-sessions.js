@@ -219,7 +219,7 @@ const wait = (value, time) =>
       ? setTimeout(() => resolve(value), time)
       : setTimeout(() => reject(value), time)
   );
-wait(null, 1000).then(console.log).catch(console.log); 
+wait(null, 1000).then(console.log).catch(console.log);
 
 // Create two functions:
 // asyncInc should take in a number and increment that number by 1 and resolve
@@ -239,19 +239,22 @@ wait(null, 1000).then(console.log).catch(console.log);
 
 // Do it again! But use a different syntax.
 
-const asyncInc = async (num) => num + 1
-const res = asyncInc(3) // 4
-res.then(console.log) // 4
-const asyncDouble = async (num) => num * 2
-asyncDouble(4).then(console.log)
+const asyncInc = async (num) => num + 1;
+const res = asyncInc(3); // 4
+res.then(console.log); // 4
+const asyncDouble = async (num) => num * 2;
+asyncDouble(4).then(console.log);
 
 // Create a function called `asyncPipe` which can compose normal functions and
 // promise returning functions in reverse mathematical order.
 
-const asyncPipe = (...fns) => (x) => fns.reduce(async (y, fn) => fn(await y), x);
+const asyncPipe =
+  (...fns) =>
+  (x) =>
+    fns.reduce(async (y, fn) => fn(await y), x);
 
 // First increment, then double a number.
-const asyncDoubleInc = asyncPipe(asyncInc, asyncDouble)
+const asyncDoubleInc = asyncPipe(asyncInc, asyncDouble);
 
 // TypeScript Tax
 // Code review: 80%
@@ -279,3 +282,78 @@ const asyncDoubleInc = asyncPipe(asyncInc, asyncDouble)
 // - abstracts away browser differences
 // - abstracts away platform differences (mobile apps, videos, VRs,
 // native desktop apps)
+
+// What is the React Lifecycle?
+// react lifecycle includes phases that includes (mounting, updating, unmounting) that helps to protect the component state
+// for the mounting, the component returns a jsx with an initial state even before considering other side effects and then an
+//effects/method is called immediately affect components mounts. for class, it is componentDidMount and for functional component
+//its with useEfect with an empty array dependency.
+
+// What is lifecycle in the update step? (The update lifecycle?)
+// - render
+// - precommit
+// - commit
+// for updating
+
+// The general lifecycle for a component is:
+// - mount - happens once
+// - update - can happen many times
+//   - render
+//   - precommit
+//   - commit
+// - unmount - happens once
+
+function MyComponent() {
+  const [state, setState] = useState(0);
+
+  useEffect(() => {
+    // runs more often
+  }, [state]);
+
+  return <button onClick={() => setState((c) => c + 1)}>Click</button>;
+}
+
+// What is a higher-order component?
+// higher order component is a function that takes in a component and returns
+// a component with with additional component logic, with or without props being passed to the returned component
+
+// What is a React component?
+// A function that returns JSX.
+
+// Create a higher order component that is curried, takes in a title string and
+// then injects that title as a prop into the wrapped component.
+
+const withTitle =
+  (title = "title") =>
+  (WrappedComponent) =>
+  (props) =>
+    <WrappedComponent title={title} {...props} />;
+
+// Now use this HOC. Show me the usage.
+
+const Heading = ({ title }) => <h1> {title}</h1>;
+const CurrentRender = withTitle("Books")(Heading);
+<Currender />;
+
+
+// Explain the display container component pattern with examples.
+// Display container component pattern leverages seperating the view renders
+// from the component state/props/context logic in a way that provides  state/props/context
+// from a parent component (container) to the the child component (presentational/dumb component).
+
+const UserDetailsContainer = () => {
+  const [username, setUsername] = useState("");
+  return <UserDetailsComponent username={username} />;
+};
+const UserDetailsComponent = ({ username }) => <p>{username}</p>;
+
+<UserDetailsContainer />;
+
+function MyComponent() {}
+
+MyComponent.displayName = "";
+MyComponent.defaultProps = {};
+MyComponent.propTypes = {};
+// getDerivedStateFromProps && getDerivedStateFromError && getSnapshotBeforeUpdate
+
+
