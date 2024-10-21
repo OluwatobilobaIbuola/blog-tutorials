@@ -1,10 +1,18 @@
 // Create a reducer that has normalized users and has a current user id.
 // users: { [id]: user }
+
+// Two actions:
+// 1. loginedSucceeded which takes in the user as a payload
+// then puts into the store sets it as the current user.
+// 2. usersFetched which takes in an array of users and
+// should add them to the store.
+
+import { RootState } from "@/redux/store";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { converge, pipe, prop, propOr } from "ramda";
 
 type User = {
-  id: number;
+  id: string;
   email: string;
 };
 type Users = {
@@ -12,11 +20,11 @@ type Users = {
 };
 type InitialState = {
   users: Users;
-  currentUserId: number | null;
+  currentUserId: string;
 };
 const initialState: InitialState = {
   users: {} as Users,
-  currentUserId: null as User["id"] | null,
+  currentUserId: "",
 };
 export const userProfileSlice = createSlice({
   name: "userProfile",
@@ -36,39 +44,22 @@ export const userProfileSlice = createSlice({
 
 export const reducer = userProfileSlice.reducer;
 
-// Two actions:
-// 1. loginedSucceeded which takes in the user as a payload
-// then puts into the store sets it as the current user.
-// 2. usersFetched which takes in an array of users and
-// should add them to the store.
-
 // Selectors:
 // 1. Create a selector called selectCurrentUser that returns the current user.
 // 2. Create a selector called selectCurrentUsersEmail that return the current users email.
 // 3. Create a selector called selectUserById that takes in an id as a prop and returns the given user with that id.
 
-// utils
-
-// ... actions & reducer
-// const prop = key => obj => obj[key];
-// const pipe = (...fns) => x => fns.reduce((y, f) => f(y), x);
-// const converge = (merger, fns) => x => merger(...fns.map(fn => fn(x)));
-// const propOr = defaultValue = key => obj => obj[key] ?? defaultValue;
-
-const selectUserProfileSlice = prop("userProfile");
+const selectUserProfileSlice = (state: RootState) => prop("userProfile")(state);
 
 const selectCurrentUserId = pipe(selectUserProfileSlice, prop("currentUserId"));
 
 const selectUsers = pipe(selectUserProfileSlice, prop("users"));
 
-export const selectCurrentUser = converge(prop, [
-  selectCurrentUserId,
-  selectUsers,
-]);
+//@ts-ignore
+const selectCurrentUser = converge(prop, [selectCurrentUserId, selectUsers]);
 
-export const selectCurrentUsersEmail = pipe(
-  selectCurrentUser,
-  propOr("", "email")
-);
+const selectCurrentUsersEmail = pipe(selectCurrentUser, propOr("", "email"));
 
-export const selectIsLoggedIn = pipe(selectCurrentUserId, Boolean);
+const selectUserById = (id: string) => pipe(selectUsers, prop(id));
+
+const selectIsLoggedIn = pipe(selectCurrentUserId, Boolean);

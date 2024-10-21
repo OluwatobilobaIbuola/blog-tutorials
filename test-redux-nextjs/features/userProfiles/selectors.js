@@ -1,24 +1,41 @@
-const pipe =
-  (...fns) =>
-  (x) =>
-    fns.reduce((acc, fn) => fn(acc), x);
+import { converge, pipe, prop, propOr } from "ramda";
 
-const propUtil = (prop) => (obj) => obj[prop];
+const selectUserProfileSlice = (state) => prop("userProfile")(state);
 
-const selectCurrentUser = (state) => state["users"];
+const selectCurrentUserId = pipe(selectUserProfileSlice, prop("currentUserId"));
 
-const selectUserById = (id) => pipe(selectCurrentUser, propUtil(id));
+const selectUsers = pipe(selectUserProfileSlice, prop("users"));
 
-const selectCurrentUsersEmail = (id) =>
-  pipe(selectUserById(id), propUtil("email"));
+const selectCurrentUser = converge(prop, [selectCurrentUserId, selectUsers]);
 
+const selectCurrentUsersEmail = pipe(selectCurrentUser, propOr("", "email"));
+
+const selectUserById = (id) => pipe(selectUsers, prop(id));
+
+const selectIsLoggedIn = pipe(selectCurrentUserId, Boolean);
+
+// console.log(
+//   selectUserById(123)({
+//     userProfile: {
+//       currentUserId: 123,
+//       users: {
+//         123: {
+//           id: 123,
+//           email: "ibuolatobi@gmail.com",
+//         },
+//       },
+//     },
+//   })
+// );
 console.log(
-  selectCurrentUsersEmail("123")({
-    currentUserId: 123,
-    users: {
-      123: {
-        id: 123,
-        email: "ibuolatobi@gmail.com",
+  selectIsLoggedIn({
+    userProfile: {
+      currentUserId: 123,
+      users: {
+        123: {
+          id: 123,
+          email: "ibuolatobi@gmail.com",
+        },
       },
     },
   })
