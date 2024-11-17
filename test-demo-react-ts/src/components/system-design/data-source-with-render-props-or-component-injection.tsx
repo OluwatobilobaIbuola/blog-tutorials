@@ -1,4 +1,4 @@
-import useGetDataHook from "../../Hooks/useGetDataHook";
+import useGetDataHook from "../../hooks/useGetDataHook";
 
 export const DataSourceWithRenderProps = <T extends Record<string, any>>({
   getData,

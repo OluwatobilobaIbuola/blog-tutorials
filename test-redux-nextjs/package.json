@@ -8,7 +8,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "test": "riteway -r @babel/register"
+    "test": "riteway -r @babel/register features/**/*.test.ts"
   },
   "dependencies": {
     "@reduxjs/toolkit": "^2.2.5",

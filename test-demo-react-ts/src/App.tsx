@@ -1,14 +1,5 @@
 import "./assets/css/global.css";
 import { createBrowserRouter, Outlet, RouterProvider } from "react-router-dom";
-import {
-  ControlledFlowComp,
-  CurrentUserLoaderComp,
-  TypeaheadComp,
-  UncontrolledFlowComp,
-} from "./components/SystemDesign";
-import { Test } from "./components/ClassExample";
-import Sticky from "./components/Sticky";
-import Drag from "./components/Drag";
 
 function App() {
   const Layout = () => {
@@ -23,7 +14,7 @@ function App() {
           path: "/",
           element: (
             <div className="flex justify-center items-center min-h-screen">
-              <Drag />
+              Home
             </div>
           ),
         },

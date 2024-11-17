@@ -117,6 +117,8 @@ console.log(doubledNum); // 36
 // still using your curried sum and multiply functions in their respective
 // definitions.
 
+let pointedStyleDouble = (b) => curriedMultiply(2)(b);
+
 let incSecond = curriedSum(1);
 
 // Using the native implementations of `map` and `filter`, create curried
@@ -137,7 +139,7 @@ const add4 = addx(4); // add4 is taking in number and returning number ✅
 // Create add4NonPointFree using `add` again in a pointed way.
 
 // const addSomething = (b) => add4(b)
-const add4NonPointFree = (a) => addx(4)(a); // add4NonPointFree is taking in number but returning function 🚫
+const add4NonPointFree = (a) => addx(4)(a); // add4NonPointFree is taking in number and returning number
 
 // Create a function called `isEven` which takes in a number and then returns
 // true if the number is even, otherwise false.
