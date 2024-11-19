@@ -12,4 +12,4 @@ Constants.TRANSACTION_REF_PREFIX = "TXN";
 Constants.X_USER_ID = "x-user-id";
 Constants.DEV_ENVIRONMENT = "dev";
 Constants.SUCCESS = "00";
-//# sourceMappingURL=Constants.js.map
+//# sourceMappingURL=constants.js.map
