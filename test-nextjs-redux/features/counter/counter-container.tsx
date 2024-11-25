@@ -1,7 +1,7 @@
 "use client";
 
 import { RootState } from "@/redux/store";
-import { compose } from "ramda";
+import { compose } from "@/node_modules/@types/ramda";
 import { ConnectedProps, connect } from "react-redux";
 import { CounterComponent } from "./counter-component";
 import { decrementAsync, incrementAsync } from "./counter-reducer";

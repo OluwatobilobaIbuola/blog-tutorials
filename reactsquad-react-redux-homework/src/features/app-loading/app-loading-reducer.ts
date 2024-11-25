@@ -6,6 +6,8 @@ import { not, pipe, prop } from "ramda";
 const slice = "appLoading";
 const initialState = {
   appIsLoading: true,
+  successToast: { showToast: false, message: "", title: "Success" },
+  errorToast: { showToast: false, message: "", title: "Error" },
 };
 
 export const appSlice = createSlice({
@@ -15,11 +17,33 @@ export const appSlice = createSlice({
     finishAppLoading: (state) => {
       state.appIsLoading = false;
     },
+    handleResetToast: (state) => {
+      state.successToast.showToast = false;
+      state.errorToast.showToast = false;
+    },
+    handleSuccessToast: (state, action: PayloadAction<DataResponse<any>>) => {
+      state.successToast.showToast = true;
+      state.successToast.message = action.payload.message;
+    },
+    handleErrorToast: (state, action: PayloadAction<ApiError<any>>) => {
+      state.errorToast.showToast = true;
+      state.errorToast.message =
+        (action.payload as any)?.data?.message ||
+        (action.payload as any)?.response?.data?.message ||
+        (action.payload as any).message ||
+        (action.payload as any).data?.body?.message ||
+        "Error Processing Request. Try again.";
+    },
   },
 });
 
-export const { finishAppLoading } = appSlice.actions;
-const reducer = appSlice.reducer;
+export const {
+  finishAppLoading,
+  handleSuccessToast,
+  handleErrorToast,
+  handleResetToast,
+} = appSlice.actions;
+export const reducer = appSlice.reducer;
 
 export type AppLoadingState = ReturnType<typeof reducer>;
 
@@ -34,5 +58,13 @@ const getAppFinishedLoading = pipe(
   prop<"appIsLoading">("appIsLoading"),
   not
 );
+const getShowSuccessToast = pipe(
+  getAppLoadingSlice,
+  prop<"successToast">("successToast")
+);
+const getShowErrorToast = pipe(
+  getAppLoadingSlice,
+  prop<"errorToast">("errorToast")
+);
 
-export { getAppFinishedLoading, slice };
+export { getAppFinishedLoading, slice, getShowSuccessToast, getShowErrorToast };

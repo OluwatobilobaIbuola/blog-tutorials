@@ -1,4 +1,3 @@
-"use client";
 import { useEffect } from "react";
 import type { ConnectedProps } from "react-redux";
 import { connect } from "react-redux";
@@ -18,7 +17,10 @@ function AppLoadingComponent({ loadApp }: AppLoadingPropsFromRedux) {
 
   return (
     <div className="flex justify-center items-center min-h-screen">
-      <Spinner />
+      <div>
+        <Spinner />
+        <p className="mt-4">Loading ...</p>
+      </div>
     </div>
   );
 }

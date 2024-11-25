@@ -1,28 +1,84 @@
-import { combineSlices, configureStore } from "@reduxjs/toolkit";
+import {
+  persistReducer,
+  PersistConfig,
+  FLUSH,
+  REHYDRATE,
+  PAUSE,
+  PERSIST,
+  PURGE,
+  REGISTER,
+} from "redux-persist";
+import storage from "redux-persist/lib/storage";
+import { combineReducers, configureStore } from "@reduxjs/toolkit";
 import { createLogger } from "redux-logger";
 import createSagaMiddleware from "redux-saga";
 import { rootSaga } from "./saga";
-import { appSlice } from "@/features/app-loading/app-loading-reducer";
-import { userProfileSlice } from "@/features/user-profile/user-profile-reducer";
+import {
+  reducer as appLoadingReducer,
+  slice as appLoadingSlice,
+} from "@/features/app-loading/app-loading-reducer";
+import {
+  reducer as userProfileReducer,
+  slice as userProfileSlice,
+} from "@/features/user-profile/user-profile-reducer";
+import {
+  reducer as userAuthenticationReducer,
+  slice as userAuthenticationSlice,
+} from "@/features/user-authentication/user-authentication-reducer";
+import { PersistPartial } from "redux-persist/es/persistReducer";
 
 const isClient = typeof window !== "undefined";
 const isProduction = process.env.NODE_ENV === "production";
 const isDevelopment = process.env.NODE_ENV === "development";
 
-const rootReducer = combineSlices(appSlice, userProfileSlice);
-export const rootState = rootReducer(undefined, { type: "" });
+const rootReducer = combineReducers({
+  [appLoadingSlice]: appLoadingReducer,
+  [userProfileSlice]: userProfileReducer,
+  [userAuthenticationSlice]: userAuthenticationReducer,
+});
+export const rootState: any = {
+  appLoading: {
+    appIsLoading: true,
+    errorToast: {
+      showToast: false,
+      message: "",
+      title: "",
+    },
+    successToast: {
+      showToast: false,
+      message: "",
+      title: "",
+    },
+  },
+  userProfile: { currentUserId: "", user: null },
+  userAuthentication: { isAuthenticating: false, token: "" },
+};
 
 export type RootState = ReturnType<typeof rootReducer>;
 
 const sagaMiddleware = createSagaMiddleware();
 
+const persistConfig: PersistConfig<ReturnType<typeof rootReducer>> = {
+  key: "root",
+  storage: storage,
+  whitelist: ["userAuthentication", "userProfile"],
+  version: 1,
+};
+
+const persistedReducer = persistReducer(persistConfig, rootReducer);
+
 export const makeStore = (preloadedState: RootState) => {
   const store = configureStore({
     devTools: !isProduction,
-    preloadedState,
-    reducer: rootReducer,
+    preloadedState: preloadedState as any,
+    reducer: persistedReducer,
     middleware: (getDefaultMiddleware) => {
-      return getDefaultMiddleware({ thunk: false })
+      return getDefaultMiddleware({
+        thunk: false,
+        serializableCheck: {
+          ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
+        },
+      })
         .concat(sagaMiddleware)
         .concat(isDevelopment ? [createLogger()] : []);
     },

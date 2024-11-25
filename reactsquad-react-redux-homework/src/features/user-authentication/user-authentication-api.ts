@@ -11,7 +11,7 @@ export const loginRequest = ({
   password: string;
 }): Promise<ServerUser> => {
   return publicRequest(`${baseUrl}`)
-    .post(`/auth/admin/login`, {
+    .post(`api/login`, {
       email,
       password,
     })

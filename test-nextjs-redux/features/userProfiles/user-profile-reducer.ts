@@ -9,7 +9,7 @@
 
 import { RootState } from "@/redux/store";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { converge, pipe, prop, propOr } from "ramda";
+import { converge, pipe, prop, propOr } from "@/node_modules/@types/ramda";
 
 type User = {
   id: string;

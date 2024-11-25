@@ -15,18 +15,22 @@ export const userSlice = createSlice({
     ) => {
       state.isAuthenticating = true;
     },
-    loginSuccess: (state, { payload }: PayloadAction<{ token: string }>) => {
+    userIsSignedIn: (state, { payload }: PayloadAction<{ token: string }>) => {
       state.token = payload.token;
     },
     stopAuthenticating: (state) => {
       state.isAuthenticating = false;
     },
+    userIsSignedOut: (state) => {
+      state.token = "";
+    },
   },
 });
 
-export const userReducer = userSlice.reducer;
-export const { login, stopAuthenticating, loginSuccess } = userSlice.actions;
-export type UserAuthenticationState = ReturnType<typeof userReducer>;
+export const reducer = userSlice.reducer;
+export const { login, stopAuthenticating, userIsSignedIn, userIsSignedOut } =
+  userSlice.actions;
+export type UserAuthenticationState = ReturnType<typeof reducer>;
 
 /**
  * SELECTORS

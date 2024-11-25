@@ -3,5 +3,5 @@ import { watchLogin } from "@/features/user-authentication/user-authentication-s
 import { all } from "redux-saga/effects";
 
 export function* rootSaga() {
-  yield all([watchLogin, watchLoadApp]);
+  yield all([watchLogin(), watchLoadApp()]);
 }

@@ -31,6 +31,14 @@ app.use(express_1.default.json());
 route.get("/me", validateToken_1.validateToken, (req, res) => {
     res.send("Hello, We serve");
 });
+route.post("/login", (req, res) => {
+    res.json({
+        status: true,
+        statuscode: 201,
+        message: "Login successfully",
+        data: { token: "qwertyuiopasdfghjklzxcvbnm" },
+    });
+});
 app.use(route);
 app.listen(1234, () => {
     console.log("Server running on Port 1234");

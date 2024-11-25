@@ -14,16 +14,21 @@ export const userProfileSlice = createSlice({
   name: slice,
   initialState,
   reducers: {
-    setCurrentUserProfile: (state, { payload }: PayloadAction<UserProfile>) => {
-      state.currentUserId = payload._id;
+    setCurrentUserProfile: (state, { payload }: PayloadAction<any>) => {
+      state.currentUserId = payload.id;
       state.user = payload;
+    },
+    removeCurrentUserProfile: (state) => {
+      state.user = null;
+      state.currentUserId = "";
     },
   },
 });
 
-export const { setCurrentUserProfile } = userProfileSlice.actions;
+export const { setCurrentUserProfile, removeCurrentUserProfile } =
+  userProfileSlice.actions;
 
-const reducer = userProfileSlice.reducer;
+export const reducer = userProfileSlice.reducer;
 
 export type UserProfileState = ReturnType<typeof reducer>;
 
@@ -49,4 +54,4 @@ const getCurrentUser = pipe(getUserProfileSlice, prop<"user">("user"));
 
 const getIsAuthenticated = pipe(getCurrentUser, complement(isNil));
 
-export { getCurrentUserId, getIsAuthenticated, slice };
+export { getCurrentUserId, getIsAuthenticated, slice, getCurrentUser };

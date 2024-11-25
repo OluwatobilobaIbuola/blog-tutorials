@@ -4,8 +4,6 @@ import { curry } from "ramda";
 import { PropsWithChildren, useEffect } from "react";
 import type { ConnectedProps } from "react-redux";
 import { connect } from "react-redux";
-
-import hoistStatics from "./hoist-statics";
 import { RootState } from "@/redux/store";
 import { useRouter } from "next/navigation";
 
@@ -19,7 +17,7 @@ function redirect(predicate: (state: RootState) => boolean, path: string) {
   });
   const connector = connect(mapStateToProps);
 
-  return hoistStatics(function <T>(
+  return function <T>(
     Component: React.ComponentType<Omit<T, "shouldRedirect">>
   ) {
     function Redirect({
@@ -41,7 +39,7 @@ function redirect(predicate: (state: RootState) => boolean, path: string) {
     }
 
     return connector(Redirect);
-  });
+  };
 }
 
 export default curry(redirect);

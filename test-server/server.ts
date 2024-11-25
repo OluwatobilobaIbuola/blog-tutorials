@@ -6,7 +6,7 @@ const route = Router();
 
 app.use(express.json());
 
-route.get("/me", validateToken, (req: Request, res: Response) => {
+route.get("/", validateToken, (req: Request, res: Response) => {
   res.send("Hello, We serve");
 });
 

@@ -28,13 +28,8 @@ export type Unwrap<T> = T extends Promise<infer U>
   : T;
 
 type User = {
-  _id: string;
+  id: string;
   email: string;
-  last_name: string;
-  first_name: string;
-  createdAt: string;
-  updatedAt: string;
-  __v: number;
   token: string;
 };
 interface ServerUser extends DataResponse<User> {}

@@ -1,13 +1,13 @@
-import DashboardLayout from "@/app/(dashboard)/_components/dashboard-layout";
+import Layout from "@/components/layout";
 
 function withLayout<T extends JSX.IntrinsicAttributes>(
   WrappedComponent: React.ComponentType<T>
 ) {
   return function WithLayoutWrapper(props: T) {
     return (
-      <DashboardLayout>
+      <Layout>
         <WrappedComponent {...props} />
-      </DashboardLayout>
+      </Layout>
     );
   };
 }

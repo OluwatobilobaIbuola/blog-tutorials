@@ -9,7 +9,7 @@ export default function Spinner() {
     <motion.p
       variants={rotate}
       animate="show"
-      className={cn(`border-primary border-b-[transparent]
+      className={cn(`border-foreground border-b-[transparent]
 rounded-[50%] flex mx-auto w-[50px] h-[50px] border-[6px]`)}
     />
   );

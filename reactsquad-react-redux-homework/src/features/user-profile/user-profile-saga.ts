@@ -1,4 +1,4 @@
-import { compose, PayloadAction } from "@reduxjs/toolkit";
+import { compose } from "@reduxjs/toolkit";
 
 import { call, put } from "redux-saga/effects";
 
