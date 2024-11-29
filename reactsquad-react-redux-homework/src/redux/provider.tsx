@@ -20,7 +20,6 @@ const initializeStore = (preloadedState: RootState) => {
     store = undefined;
   }
 
-  // This check needs to run in the functions scope.
   if (typeof window === "undefined") return _store;
 
   if (!store) store = _store;
