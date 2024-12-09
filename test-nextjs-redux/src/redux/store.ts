@@ -2,8 +2,8 @@ import { combineSlices, configureStore } from "@reduxjs/toolkit";
 import { createLogger } from "redux-logger";
 import createSagaMiddleware from "redux-saga";
 import { rootSaga } from "./saga";
-import { counterSlice } from "@/features/counter/counter-reducer";
-import { userProfileSlice } from "@/features/userProfiles/user-profile-reducer";
+import { counterSlice } from "@/src/features/counter/counter-reducer";
+import { userProfileSlice } from "@/src/features/userProfiles/user-profile-reducer";
 
 const isClient = typeof window !== "undefined";
 const isProduction = process.env.NODE_ENV === "production";

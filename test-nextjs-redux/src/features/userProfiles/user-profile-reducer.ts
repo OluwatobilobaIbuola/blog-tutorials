@@ -7,9 +7,9 @@
 // 2. usersFetched which takes in an array of users and
 // should add them to the store.
 
-import { RootState } from "@/redux/store";
+import { RootState } from "@/src/redux/store";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { converge, pipe, prop, propOr } from "@/node_modules/@types/ramda";
+import { converge, pipe, prop, propOr } from "ramda";
 
 type User = {
   id: string;

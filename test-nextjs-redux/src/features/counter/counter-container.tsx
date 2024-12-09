@@ -1,6 +1,6 @@
 "use client";
 
-import { RootState } from "@/redux/store";
+import { RootState } from "@/src/redux/store";
 import { compose } from "@/node_modules/@types/ramda";
 import { ConnectedProps, connect } from "react-redux";
 import { CounterComponent } from "./counter-component";

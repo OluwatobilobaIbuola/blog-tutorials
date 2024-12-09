@@ -25,7 +25,6 @@ import {
   reducer as userAuthenticationReducer,
   slice as userAuthenticationSlice,
 } from "@/features/user-authentication/user-authentication-reducer";
-import { PersistPartial } from "redux-persist/es/persistReducer";
 
 const isClient = typeof window !== "undefined";
 const isProduction = process.env.NODE_ENV === "production";
