@@ -79,7 +79,7 @@ export default function App() {
                 type="search"
                 onChange={(e) => setQuery(e.currentTarget.value)}
                 name="q"
-                value={q || ""}
+                value={query || ""}
               />
               <div id="search-spinner" aria-hidden hidden={!searching} />
             </Form>

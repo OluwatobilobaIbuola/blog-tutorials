@@ -47,7 +47,7 @@ export default function Contact() {
           ) : (
             <i>No Name</i>
           )}{" "}
-          <Favorite contact={contact} />
+          <Favorite contact={{ favorite: contact.favorite }} />
         </h1>
 
         {contact.twitter ? (

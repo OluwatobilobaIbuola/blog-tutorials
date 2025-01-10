@@ -1,6 +1,4 @@
 import { useState } from "react";
-import { fetchData } from "../../Service";
-import { UserTest } from "../../typing/types";
 import { StepOne, StepThree, StepTwo } from "./Step";
 import { CurrentUserLoader } from "./current-user-loader";
 import {
