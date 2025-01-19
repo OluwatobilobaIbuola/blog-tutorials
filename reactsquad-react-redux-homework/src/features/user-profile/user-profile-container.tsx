@@ -17,7 +17,7 @@ const mapDispatchToProps = {
 };
 const connector = connect(mapStateToProps, mapDispatchToProps);
 export type UserProfilePropsFromRedux = ConnectedProps<typeof connector>;
-function UserProfile({
+function UserProfileComponent({
   removeCurrentUserProfile,
   userIsSignedOut,
   userData,
@@ -106,4 +106,4 @@ function UserProfile({
   );
 }
 
-export default connector(UserProfile);
+export default connector(UserProfileComponent);

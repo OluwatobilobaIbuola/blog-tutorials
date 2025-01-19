@@ -35,23 +35,7 @@ const rootReducer = combineReducers({
   [userProfileSlice]: userProfileReducer,
   [userAuthenticationSlice]: userAuthenticationReducer,
 });
-export const rootState: any = {
-  appLoading: {
-    appIsLoading: true,
-    errorToast: {
-      showToast: false,
-      message: "",
-      title: "",
-    },
-    successToast: {
-      showToast: false,
-      message: "",
-      title: "",
-    },
-  },
-  userProfile: { currentUserId: "", user: null },
-  userAuthentication: { isAuthenticating: false, token: "" },
-};
+export const rootState = rootReducer(undefined, { type: "" });
 
 export type RootState = ReturnType<typeof rootReducer>;
 
@@ -65,6 +49,8 @@ const persistConfig: PersistConfig<ReturnType<typeof rootReducer>> = {
 };
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
+
+
 
 export const makeStore = (preloadedState: RootState) => {
   const store = configureStore({

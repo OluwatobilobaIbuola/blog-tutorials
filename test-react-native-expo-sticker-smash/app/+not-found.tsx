@@ -1,14 +1,16 @@
-import { Link, Stack } from "expo-router";
+import { Stack, Link } from "expo-router";
 import { Text, View, StyleSheet } from "react-native";
 
 export default function NotFound() {
   return (
     <>
       <Stack.Screen
+        name="+not-found"
         options={{
           title: "Oh no, not found",
         }}
       />
+
       <View style={styles.container}>
         <Text style={styles.text}>Sticker Smash</Text>
         <Link href="/" style={styles.button}>

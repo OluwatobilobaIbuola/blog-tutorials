@@ -10,6 +10,7 @@ const isProduction = process.env.NODE_ENV === "production";
 const isDevelopment = process.env.NODE_ENV === "development";
 
 const rootReducer = combineSlices(counterSlice, userProfileSlice);
+
 export const rootState = rootReducer(undefined, { type: "" });
 
 export type RootState = ReturnType<typeof rootReducer>;

@@ -1,0 +1,42 @@
+export const COLORS = {
+  white: '#FFF',
+  black: '#000',
+  gray: '#BAB9B9',
+  gray_2: '#D9D9D9',
+  whiteWithAlpha: 'rgba(255, 255, 255, 0.8)',
+  bgWhite: '#fff',
+  bgOffWhite: '#FFF5EF',
+  bgOffWhite_2: '#FFFAF7',
+  txtWhite: '#FFF',
+  txtOrange: '#FF6636',
+  txtOrange_2: '#FCD2C2',
+  btnOrange: '#FF3E00',
+
+  txtBlack: '#221F20',
+  txtBlack_2: '#0F0006',
+  txtBlack_3: '#121212',
+  txtBlack_4: '#575757',
+  txtBlack_5: '#787878',
+  txtGrey: '#979797',
+  black_2: '#121212',
+
+  transparent: 'transparent',
+  blue: '#003B73',
+  red: '#CC3000',
+  btnDanger: '#C30000',
+
+  inputLabelTxt: '#2F2F2F',
+  tabBarIcon: '#808080',
+
+  inputPlaceholderTxt: '#8890A1',
+  inputTxt: '#2F2F2F',
+  inputBg: '#FBFAFA',
+  inputBorder: '#BAB9B9',
+  bottomSheetBackdrop: 'rgba(0, 0, 0, 0.3)',
+  modalBackdrop: 'rgba(0, 0, 0, 0.7)',
+
+  backIcon: '#EFF5F3',
+  lightBlue: '#62C3DB',
+  faintBlue: 'rgba(0, 162, 201, 0.1)',
+  darkBlue: '#0F6074',
+};

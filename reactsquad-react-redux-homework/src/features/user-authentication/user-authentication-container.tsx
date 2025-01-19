@@ -19,9 +19,5 @@ const mapDispatchToProps = {
 const connector = connect(mapStateToProps, mapDispatchToProps);
 export type UserAuthenticationPropsFromRedux = ConnectedProps<typeof connector>;
 export const UserAuthenticationContainer = compose(connector)(
-  function UserAuthenticationContainer(
-    props: UserAuthenticationPropsFromRedux
-  ) {
-    return <UserAuthenticationComponent {...props} />;
-  }
+  UserAuthenticationComponent
 );
