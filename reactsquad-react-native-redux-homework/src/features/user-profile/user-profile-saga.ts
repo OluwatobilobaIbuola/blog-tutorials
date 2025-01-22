@@ -3,7 +3,7 @@ import { fetchUsers } from './user-profile-api';
 import { fetchUsersRequest, fetchUsersSuccess } from './user-profile-reducer';
 import { User } from './user-profile-types';
 
-function* handleFetchUsers() {
+export function* handleFetchUsers() {
   try {
     const response: Response = yield call(fetchUsers);
     const users: User[] = yield call([response, 'json']);
@@ -13,6 +13,6 @@ function* handleFetchUsers() {
   }
 }
 
-export default function* watchHandleFetchUsers() {
+export function* watchFetchUsers() {
   yield takeEvery(fetchUsersRequest.type, handleFetchUsers);
 }

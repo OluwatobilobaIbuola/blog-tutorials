@@ -51,8 +51,7 @@ export default compose(
     }
   });
 
-  const [name, setName] = useState('');
-  const handleContinue = () => {
+  const handleContinue = (name: string) => {
     userNameAdded(name);
     router.push('/home');
   };
@@ -60,8 +59,8 @@ export default compose(
   return (
     <OnboardingScreenComponent
       {...props}
+      currentUser={currentUser}
       handleContinue={handleContinue}
-      setName={setName}
     />
   );
 });

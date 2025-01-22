@@ -37,61 +37,56 @@ function* myGenerator() {
   console.log("running");
   const firstNumber = yield 15;
   console.log("firstNumber", firstNumber);
-  const name = yield firstNumber + 27;
-  console.log("name", name);
-  const result = yield firstNumber + name;
+  yield firstNumber + 27;
+  console.log("name", firstNumber + 27);
+  const result = yield firstNumber + 60;
   console.log("result", result);
 }
 
 const myGen = myGenerator();
-//
-console.log(myGen.next(42)); // running, {value: 15, done: false}
-//
-console.log(myGen.next("John")); //  firstNumber John, {value: John27, done:false}
-//
-console.log(myGen.next()); // name undefined, {value: Johnundefined, done: false}
-//
-console.log(myGen.next("Mayer")); // result Mayer, {value: undefined, done; true}
-//
-console.log(myGen.next()); // {value: undefined, done; true}
 
-// Lazy vs. eager
-// Give synchronous examples for lazy.
-// Operand selector operators ||, &&
+console.log(myGen.next()); // running {value: 15, done: false}
+console.log(myGen.next(23)); // firstNumber 23 {value: 50, done: false}
+console.log(myGen.next(60)); // name 50 {value: 83, done: false}
+console.log(myGen.next(30)); // result 30 {value: undefined, done: true}
 
-let isNext = false;
+// // Lazy vs. eager
+// // Give synchronous examples for lazy.
+// // Operand selector operators ||, &&
 
-const getUserId = () => fetch("some-api-call");
+// let isNext = false;
 
-const result = isNext && getUserId();
+// const getUserId = () => fetch("some-api-call");
 
-// console.log(result); // false
+// const result = isNext && getUserId();
 
-// Give an example for something eager. (We already did `.map`.)
+// // console.log(result); // false
 
-console.log("log 1");
+// // Give an example for something eager. (We already did `.map`.)
 
-const promise = new Promise((resolve) => {
-  console.log("log 2");
-  resolve("log promise");
-});
+// console.log("log 1");
 
-console.log("log 4");
-promise.then((res) => console.log(res));
+// const promise = new Promise((resolve) => {
+//   console.log("log 2");
+//   resolve("log promise");
+// });
 
-// What are the three components of Redux Saga?
+// console.log("log 4");
+// promise.then((res) => console.log(res));
 
-// 1. Sagas - Generators that manage side-effects.
-// 2. Effects - Factory functions for objects that decribe future actions.
-// 3. Middleware - Contains effect handlers, and manages the execution of the saga and the effects.
+// // What are the three components of Redux Saga?
 
-// Play terminal.
-import { take } from 'redux-saga/effects';
+// // 1. Sagas - Generators that manage side-effects.
+// // 2. Effects - Factory functions for objects that decribe future actions.
+// // 3. Middleware - Contains effect handlers, and manages the execution of the saga and the effects.
 
-console.log(take('increment'));
+// // Play terminal.
+// import { take } from "redux-saga/effects";
 
-// { type: "TAKE", payload: { pattern: 'increment' }, '@@redux-saga/IO': true, combinator: false  }
-// "combinatorial" run in parallel.
+// console.log(take("increment"));
 
-// All effects are action creators because they return objects with a type and a
-// payload. BUT there are some additional saga specific properties.
+// // { type: "TAKE", payload: { pattern: 'increment' }, '@@redux-saga/IO': true, combinator: false  }
+// // "combinatorial" run in parallel.
+
+// // All effects are action creators because they return objects with a type and a
+// // payload. BUT there are some additional saga specific properties.
