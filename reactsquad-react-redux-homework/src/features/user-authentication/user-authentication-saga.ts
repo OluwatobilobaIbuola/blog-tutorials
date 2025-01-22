@@ -24,9 +24,11 @@ function* handleLogin({
     yield put(userIsSignedIn({ token: data.data.token }));
     yield put(handleSuccessToast(data));
     yield call(handleFetchCurrentUsersProfile);
-    yield put(stopAuthenticating());
+    
   } catch (error: any) {
     yield put(handleErrorToast(error));
+    
+  } finally {
     yield put(stopAuthenticating());
   }
 }

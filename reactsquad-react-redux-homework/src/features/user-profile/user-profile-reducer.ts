@@ -6,8 +6,10 @@ import { RootState } from "@/redux/store";
 
 const slice = "userProfile";
 const initialState: { currentUserId: string; user: UserProfile | null } = {
-  currentUserId: "",
+  // currentUserId: "",
   user: null,
+  // users: {}
+  // users: []
 };
 
 export const userProfileSlice = createSlice({
